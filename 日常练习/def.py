@@ -29,9 +29,23 @@ def HighLow(grades):
     grades.sort(reverse=True)
     return grades
 
+
+def HL(grades):
+    H = 0
+    L = 100
+    for i in range(0,len(grades)):
+       if grades[i] > H:
+        H = grades[i]
+       if grades[i] < L:
+        L = grades[i]
+    return L,H
 a = inputGardes()
 printGrades(a)
 c = AvGrades(a)
 d = HighLow(a)
-print(c)
-print(d)
+low1,high1 = HL(a)
+# print(c)
+# print(d)
+print("***************")
+print(low1)
+print(high1)
