@@ -14,7 +14,7 @@ while row <= 9 :
     # print("上面是第%d行" % row)
     row += 1
 
-
-print("1\t2\t3\t")
-print("10\t20\t30\t")
+# \t 格式化输出
+# print("1\t2\t3\t")
+# print("10\t20\t30\t")
 
