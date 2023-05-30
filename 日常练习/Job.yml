@@ -1,0 +1,68 @@
+apiVersion: batch.volcano.sh/v1alpha1
+kind: Job
+metadata:
+  labels:
+    app: train-20230520-143814-0x3a04
+    manage-service: hyperdl
+  name: train-20230520-143814-0x3a04
+spec:
+  maxRetry: 0
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: gpuname
+                  operator: In
+                  values:
+                  - nvidia
+        containers:
+        - command:
+          - /bin/bash
+          - -c
+          - ./run_gpu_train.sh  1 /home/nfs/appnfs/example/jobs/data-center-20230412-184112-0xc5e3/VOC
+            /home/nfs/appnfs/example/jobs/train-20230520-143814-0x3a04/train 50 0.001
+            2 /home/nfs/appnfs/public/Pretrained_models/mindspore/yolov4/yolov4_ascend_v190_coco2017_official_cv_acc44.ckpt  >>
+            /home/nfs/appnfs/example/jobs/train-20230520-143814-0x3a04/hdl.log 2>&1
+          image: harbor.hyperdl.cn:180/hyperdl/mindspore1.9.0-gpu-cuda11.1-x86:v4.3.6
+          imagePullPolicy: IfNotPresent
+          name: train-20230520-143814-0x3a04
+          resources:
+            limits:
+              cpu: 16
+              memory: 36Gi
+              nvidia.com/gpu: 1
+            requests:
+              cpu: 16
+              memory: 36Gi
+              nvidia.com/gpu: 1
+          volumeMounts:
+          - mountPath: /home/nfs/appnfs
+            name: nfs
+            readOnly: false
+          - mountPath: /home/nfs/appnfs/public
+            name: public
+            readOnly: false
+          - mountPath: /dev/shm
+            name: dshm
+            readOnly: false
+          - mountPath: /home/nfs/appnfs/public/HDL_Algorithms/mindspore/yolov4
+            name: algorithm-path
+            readOnly: false
+          workingDir: /home/nfs/appnfs/public/HDL_Algorithms/mindspore/yolov4
+        hostNetwork: true
+        restartPolicy: Never
+        volumes:
+        - hostPath:
+            path: /home/nfs/appnfs
+          name: nfs
+        - hostPath:
+            path: /home/nfs/appnfs/public
+          name: public
+        - hostPath:
+            path: /home/nfs/appnfs/public/HDL_Algorithms/mindspore/yolov4
+          name: algorithm-path
+        - emptyDir:
+            medium: Memory
+            sizeLimit: 36864Mi
+          name: dshm
