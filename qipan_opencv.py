@@ -25,7 +25,7 @@ while True:
         else:
             nowcolour = lightcolour
 
-
+    x = cv2.rectangle(x,(100,100),(800,800),(0,255,0),5)
     cv2.imshow("我的棋盘",x)
 
     if cv2.waitKey(1) == ord("q"):
