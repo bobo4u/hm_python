@@ -4,8 +4,8 @@ print(cv2.__version__)
 rows = int(input("请告诉我你需要的行数： "))
 columes = int(input("请告诉我你需要的列数: "))
 cam = cv2.VideoCapture(0,cv2.CAP_DSHOW)
-width = 640
-height = 360
+width = 512
+height = 512
 cam.set(cv2.CAP_PROP_FRAME_WIDTH,width) 
 cam.set(cv2.CAP_PROP_FRAME_HEIGHT,height)
 cam.set(cv2.CAP_PROP_FPS,30)
