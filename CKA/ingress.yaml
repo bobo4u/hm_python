@@ -1,0 +1,19 @@
+# 暴露服务时，需要在Ingress的配置中指定svc的名称和端口。以下是一个示例的YAML配置，通过Ingress将svc的名称暴露为"web"：
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: web-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: web
+          servicePort: 80
+# 在上述配置中，metadata.name指定了Ingress的名称，annotations中定义了Ingress的类别，这里使用的是nginx。
+# spec.rules定义了访问规则，其中http表示HTTP请求，paths定义了路径与后端服务的映射关系。
+# 在paths中，path指定了访问的路径为根路径"/"，backend指定了后端服务的名称和端口，这里将svc的名称设置为"web"，端口设置为80。
+# 请注意，上述示例中的YAML配置是基于Kubernetes的Ingress定义。确保你的Kubernetes集群已正确配置并运行，并且你具有足够的权限来创建和配置Ingress对象。
